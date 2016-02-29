@@ -92,7 +92,7 @@ namespace RVO
          */
         public static float absSq(Vector2 vector)
         {
-            return vector * vector;
+            return Vector2.Dot(vector, vector);
         }
 
         /**
@@ -124,7 +124,7 @@ namespace RVO
          */
         internal static float det(Vector2 vector1, Vector2 vector2)
         {
-            return vector1.x_ * vector2.y_ - vector1.y_ * vector2.x_;
+            return vector1.x * vector2.y - vector1.y * vector2.x;
         }
 
         /**
@@ -142,7 +142,7 @@ namespace RVO
          */
         internal static float distSqPointLineSegment(Vector2 vector1, Vector2 vector2, Vector2 vector3)
         {
-            float r = ((vector3 - vector1) * (vector2 - vector1)) / absSq(vector2 - vector1);
+            float r = Vector2.Dot((vector3 - vector1), (vector2 - vector1)) / absSq(vector2 - vector1);
 
             if (r < 0.0f)
             {
@@ -167,7 +167,7 @@ namespace RVO
          */
         internal static float fabs(float scalar)
         {
-            return Math.Abs(scalar);
+            return Mathf.Abs(scalar);
         }
 
         /**
@@ -209,7 +209,7 @@ namespace RVO
          */
         internal static float sqrt(float scalar)
         {
-            return (float)Math.Sqrt(scalar);
+            return (float)Mathf.Sqrt(scalar);
         }
     }
 }
