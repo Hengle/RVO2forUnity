@@ -92,20 +92,24 @@ class Blocks:MonoBehaviour
             for (int j = 0; j < 5; ++j)
             {
                 pos = new Vector3(55.0f + i * 10.0f, 0, 55.0f + j * 10.0f);
-                //goals.Add(new Vector2(-75.0f, -75.0f));
                 agent = (GameObject)GameObject.Instantiate(agentPrefab, pos, Quaternion.identity);
+                AgentComponent agentComponent = agent.GetComponent<AgentComponent>();
+                agentComponent.target = new Vector3(-75.0f, 0, -75.0f);
 
                 pos = new Vector3(-55.0f - i * 10.0f, 0, 55.0f + j * 10.0f);
-                //goals.Add(new Vector2(75.0f, -75.0f));
                 agent = (GameObject)GameObject.Instantiate(agentPrefab, pos, Quaternion.identity);
+                agentComponent = agent.GetComponent<AgentComponent>();
+                agentComponent.target = new Vector3(75.0f, 0, -75.0f);
 
                 pos = new Vector3(55.0f + i * 10.0f, 0, -55.0f - j * 10.0f);
-                //goals.Add(new Vector2(-75.0f, 75.0f));
                 agent = (GameObject)GameObject.Instantiate(agentPrefab, pos, Quaternion.identity);
+                agentComponent = agent.GetComponent<AgentComponent>();
+                agentComponent.target = new Vector3(-75.0f, 0, 75.0f);
 
                 pos = new Vector3(-55.0f - i * 10.0f, 0, -55.0f - j * 10.0f);
-                //goals.Add(new Vector2(75.0f, 75.0f));
                 agent = (GameObject)GameObject.Instantiate(agentPrefab, pos, Quaternion.identity);
+                agentComponent = agent.GetComponent<AgentComponent>();
+                agentComponent.target = new Vector3(75.0f, 0, 75.0f);
             }
         }
     }

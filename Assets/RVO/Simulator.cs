@@ -495,9 +495,9 @@ namespace RVO
          * <param name="agentNo">The number of the agent whose two-dimensional
          * position is to be retrieved.</param>
          */
-        public Vector2 getAgentPosition(int agentNo)
+        public Vector3 getAgentPosition(int agentNo)
         {
-            return agents_[agentNo].position_;
+            return new Vector3(agents_[agentNo].position_.x, agents_[agentNo].curHeight_, agents_[agentNo].position_.y);
         }
 
         /**
@@ -805,7 +805,10 @@ namespace RVO
         public void setAgentPrefVelocity(int agentNo, Vector3 prefVelocity)
         {
             agents_[agentNo].prefVelocity_ = new Vector2(prefVelocity.x, prefVelocity.z);
-            agents_[agentNo].tanHeight = prefVelocity.y / agents_[agentNo].prefVelocity_.magnitude;
+            if (agents_[agentNo].prefVelocity_.magnitude != 0)
+                agents_[agentNo].tanHeight = prefVelocity.y / agents_[agentNo].prefVelocity_.magnitude;
+            else
+                agents_[agentNo].tanHeight = 0;
         }
 
         /**

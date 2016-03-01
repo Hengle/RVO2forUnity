@@ -11,10 +11,12 @@ public class AgentComponent : MonoBehaviour {
     public float timeHorizonObst;
     public float radius;
     public float maxSpeed;
+
+    public Vector3 target;
    
     // Use this for initialization
     void Start () {
-        _agentHandler = Simulator.Instance.addAgent(new Vector2(transform.position.x, transform.position.z), neighborDist, maxNeighbors, timeHorizon, timeHorizonObst, radius, maxSpeed, Vector2.zero);
+        _agentHandler = Simulator.Instance.addAgent(transform.position, neighborDist, maxNeighbors, timeHorizon, timeHorizonObst, radius, maxSpeed, Vector2.zero);
 
     }
 
@@ -30,6 +32,7 @@ public class AgentComponent : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-	
+        transform.position = Simulator.Instance.getAgentPosition(_agentHandler);
+        Simulator.Instance.setAgentPrefVelocity(_agentHandler, target - transform.position);
 	}
 }
