@@ -28,23 +28,20 @@ public class ObstacleComponent : MonoBehaviour {
         heightVector.x = 0;
         heightVector.z = 0;
         obstacleHeight = transform.TransformVector(heightVector).magnitude;
-        _obstacleHandler = addObstacle();
+        addObstacle();
         transform.hasChanged = false;
     }
 
-    int addObstacle()
+    void addObstacle()
     {
         Simulator.Instance.removeObstacle(_obstacleHandler);
         List<Vector3> obstaclePos = new List<Vector3>();
-        Debug.Log("============================");
         foreach(Vector3 v in boundingBoxPoints)
         {
             obstaclePos.Add(transform.TransformPoint(v));
-            Debug.Log(transform.TransformPoint(v).ToString());
         }
-        int obstacleNum = Simulator.Instance.addObstacle(obstaclePos, obstacleHeight);
+        _obstacleHandler = Simulator.Instance.addObstacle(obstaclePos, obstacleHeight);
         Simulator.Instance.processObstacles();
-        return obstacleNum;
     }
 	
 	// Update is called once per frame
@@ -52,7 +49,7 @@ public class ObstacleComponent : MonoBehaviour {
     {
 	    if(transform.hasChanged)
         {
-            _obstacleHandler = addObstacle();
+            addObstacle();
             transform.hasChanged = false;
         }
 	}

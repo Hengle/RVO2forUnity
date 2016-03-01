@@ -242,8 +242,15 @@ namespace RVO
          * the environment, the vertices should be listed in clockwise order.
          * </remarks>
          */
-        public int addObstacle(IList<Vector3> vertices, float height)
+        public int addObstacle(IList<Vector3> vertices3, float height)
         {
+            List<Vector2> vertices = new List<Vector2>();
+            List<float> yPos = new List<float>();
+            foreach(Vector3 avertex3 in vertices3)
+            {
+                vertices.Add(new Vector2(avertex3.x, avertex3.z));
+                yPos.Add(avertex3.y);
+            }
             if (vertices.Count < 2)
             {
                 return -1;
@@ -254,8 +261,8 @@ namespace RVO
             for (int i = 0; i < vertices.Count; ++i)
             {
                 Obstacle obstacle = new Obstacle();
-                obstacle.point_ = new Vector2(vertices[i].x, vertices[i].z);
-                obstacle.curHeight_ = vertices[i].y;
+                obstacle.point_ = vertices[i];
+                obstacle.curHeight_ = yPos[i];
                 if (i != 0)
                 {
                     obstacle.previous_ = obstacles_[obstacles_.Count - 1];
