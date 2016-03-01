@@ -64,6 +64,7 @@
 using UnityEngine;
 using RVO;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 
@@ -80,6 +81,15 @@ class Circle:MonoBehaviour
         agents = new List<GameObject>();
         /* Set up the scenario. */
         setupScenario();
+        StartCoroutine(DoStep());
+    }
+
+    IEnumerator DoStep()
+    {
+        while(true)
+        {
+            yield return Simulator.Instance.doStep();
+        }
     }
 
     void setupScenario()
@@ -164,7 +174,7 @@ class Circle:MonoBehaviour
             updateVisualization();
             #endif
             setPreferredVelocities();
-            Simulator.Instance.doStep();
+            //Simulator.Instance.doStep();
         }
     }
 }

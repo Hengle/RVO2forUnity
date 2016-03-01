@@ -56,6 +56,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Threading;
+using System.Collections;
 
 namespace RVO
 {
@@ -131,7 +132,6 @@ namespace RVO
         private ManualResetEvent[] doneEvents_;
         private Worker[] workers_;
         private int numWorkers_;
-        private float globalTime_;
 
         public static Simulator Instance
         {
@@ -290,7 +290,6 @@ namespace RVO
             defaultAgent_ = null;
             kdTree_ = new KdTree();
             obstacles_ = new List<Obstacle>();
-            globalTime_ = 0.0f;
             timeStep_ = 0.1f;
 
             SetNumWorkers(0);
@@ -302,8 +301,9 @@ namespace RVO
          *
          * <returns>The global time after the simulation step.</returns>
          */
-        public float doStep()
+        public IEnumerator doStep()
         {
+            
             if (workers_ == null)
             {
                 workers_ = new Worker[numWorkers_];
@@ -333,10 +333,7 @@ namespace RVO
             }
 
             WaitHandle.WaitAll(doneEvents_);
-
-            globalTime_ += timeStep_;
-
-            return globalTime_;
+            yield return null;
         }
 
         /**
@@ -548,18 +545,7 @@ namespace RVO
             return agents_[agentNo].velocity_;
         }
 
-        /**
-         * <summary>Returns the global time of the simulation.</summary>
-         *
-         * <returns>The present global time of the simulation (zero initially).
-         * </returns>
-         */
-        public float getGlobalTime()
-        {
-            return globalTime_;
-        }
-
-        /**
+         /**
          * <summary>Returns the count of agents in the simulation.</summary>
          *
          * <returns>The count of agents in the simulation.</returns>
@@ -846,16 +832,6 @@ namespace RVO
         public void setAgentVelocity(int agentNo, Vector2 velocity)
         {
             agents_[agentNo].velocity_ = velocity;
-        }
-
-        /**
-         * <summary>Sets the global time of the simulation.</summary>
-         *
-         * <param name="globalTime">The global time of the simulation.</param>
-         */
-        public void setGlobalTime(float globalTime)
-        {
-            globalTime_ = globalTime;
         }
 
         /**
