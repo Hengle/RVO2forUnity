@@ -146,33 +146,33 @@ class Blocks:MonoBehaviour
             * Add (polygonal) obstacles, specifying their vertices in
             * counterclockwise order.
             */
-        IList<Vector2> obstacle1 = new List<Vector2>();
-        obstacle1.Add(new Vector2(-10.0f, 40.0f));
-        obstacle1.Add(new Vector2(-40.0f, 40.0f));
-        obstacle1.Add(new Vector2(-40.0f, 10.0f));
-        obstacle1.Add(new Vector2(-10.0f, 10.0f));
-        Simulator.Instance.addObstacle(obstacle1, 0, 1);
+        IList<Vector3> obstacle1 = new List<Vector3>();
+        obstacle1.Add(new Vector3(-10.0f, 0, 40.0f));
+        obstacle1.Add(new Vector3(-40.0f, 0, 40.0f));
+        obstacle1.Add(new Vector3(-40.0f, 0, 10.0f));
+        obstacle1.Add(new Vector3(-10.0f, 0, 10.0f));
+        Simulator.Instance.addObstacle(obstacle1, 1);
 
-        IList<Vector2> obstacle2 = new List<Vector2>();
-        obstacle2.Add(new Vector2(10.0f, 40.0f));
-        obstacle2.Add(new Vector2(10.0f, 10.0f));
-        obstacle2.Add(new Vector2(40.0f, 10.0f));
-        obstacle2.Add(new Vector2(40.0f, 40.0f));
-        Simulator.Instance.addObstacle(obstacle2, 0, 1);
+        IList<Vector3> obstacle2 = new List<Vector3>();
+        obstacle2.Add(new Vector3(10.0f, 0, 40.0f));
+        obstacle2.Add(new Vector3(10.0f, 0, 10.0f));
+        obstacle2.Add(new Vector3(40.0f, 0, 10.0f));
+        obstacle2.Add(new Vector3(40.0f, 0, 40.0f));
+        Simulator.Instance.addObstacle(obstacle2, 1);
 
-        IList<Vector2> obstacle3 = new List<Vector2>();
-        obstacle3.Add(new Vector2(10.0f, -40.0f));
-        obstacle3.Add(new Vector2(40.0f, -40.0f));
-        obstacle3.Add(new Vector2(40.0f, -10.0f));
-        obstacle3.Add(new Vector2(10.0f, -10.0f));
-        Simulator.Instance.addObstacle(obstacle3, 0, 1);
+        IList<Vector3> obstacle3 = new List<Vector3>();
+        obstacle3.Add(new Vector3(10.0f, 0, -40.0f));
+        obstacle3.Add(new Vector3(40.0f, 0, -40.0f));
+        obstacle3.Add(new Vector3(40.0f, 0, -10.0f));
+        obstacle3.Add(new Vector3(10.0f, 0, -10.0f));
+        Simulator.Instance.addObstacle(obstacle3, 1);
 
-        IList<Vector2> obstacle4 = new List<Vector2>();
-        obstacle4.Add(new Vector2(-10.0f, -40.0f));
-        obstacle4.Add(new Vector2(-10.0f, -10.0f));
-        obstacle4.Add(new Vector2(-40.0f, -10.0f));
-        obstacle4.Add(new Vector2(-40.0f, -40.0f));
-        Simulator.Instance.addObstacle(obstacle4, 0, 1);
+        IList<Vector3> obstacle4 = new List<Vector3>();
+        obstacle4.Add(new Vector3(-10.0f, 0, -40.0f));
+        obstacle4.Add(new Vector3(-10.0f, 0, -10.0f));
+        obstacle4.Add(new Vector3(-40.0f, 0, -10.0f));
+        obstacle4.Add(new Vector3(-40.0f, 0, -40.0f));
+        Simulator.Instance.addObstacle(obstacle4, 1);
 
         /*
             * Process the obstacles so that they are accounted for in the
