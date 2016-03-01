@@ -61,8 +61,6 @@
  * obstacles. There is no roadmap to guide the agents around the obstacles.
  */
 
-#define RVO_OUTPUT_TIME_AND_POSITIONS
-#define RVO_SEED_RANDOM_NUMBER_GENERATOR
 
 using System;
 using RVO;
@@ -72,11 +70,7 @@ using UnityEngine;
 
 class Blocks:MonoBehaviour
 {
-    /* Store the goals of the agents. */
-    IList<Vector2> goals;
 
-    /** Random number generator. */
-    System.Random random;
 
     public GameObject agentPrefab;
     private List<GameObject> _agents;
@@ -84,166 +78,35 @@ class Blocks:MonoBehaviour
 
     void Start()
     {
-        goals = new List<Vector2>();
-        _agents = new List<GameObject>();
-        _blocks = new List<GameObject>();
-#if RVO_SEED_RANDOM_NUMBER_GENERATOR
-        random = new System.Random();
-#else
-        random = new Random(0);
-#endif
         setupScenario();
     }
 
     void setupScenario()
     {
-        /* Specify the global time step of the simulation. */
-        Simulator.Instance.setTimeStep(0.25f);
 
-        /*
-            * Specify the default parameters for agents that are subsequently
-            * added.
-            */
-        Simulator.Instance.setAgentDefaults(15.0f, 10, 5.0f, 5.0f, 2.0f, 2.0f, new Vector2(0.0f, 0.0f));
-
-        /*
-            * Add agents, specifying their start position, and store their
-            * goals on the opposite side of the environment.
-            */
+       
         GameObject agent;
-        Vector2 pos;
+        Vector3 pos;
         for (int i = 0; i < 5; ++i)
         {
             for (int j = 0; j < 5; ++j)
             {
-                pos = new Vector2(55.0f + i * 10.0f, 55.0f + j * 10.0f);
-                Simulator.Instance.addAgent(pos);
-                goals.Add(new Vector2(-75.0f, -75.0f));
-                agent = (GameObject)GameObject.Instantiate(agentPrefab, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
-                _agents.Add(agent);
+                pos = new Vector3(55.0f + i * 10.0f, 0, 55.0f + j * 10.0f);
+                //goals.Add(new Vector2(-75.0f, -75.0f));
+                agent = (GameObject)GameObject.Instantiate(agentPrefab, pos, Quaternion.identity);
 
-                pos = new Vector2(-55.0f - i * 10.0f, 55.0f + j * 10.0f);
-                Simulator.Instance.addAgent(pos);
-                goals.Add(new Vector2(75.0f, -75.0f));
-                agent = (GameObject)GameObject.Instantiate(agentPrefab, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
-                _agents.Add(agent);
+                pos = new Vector3(-55.0f - i * 10.0f, 0, 55.0f + j * 10.0f);
+                //goals.Add(new Vector2(75.0f, -75.0f));
+                agent = (GameObject)GameObject.Instantiate(agentPrefab, pos, Quaternion.identity);
 
-                pos = new Vector2(55.0f + i * 10.0f, -55.0f - j * 10.0f);
-                Simulator.Instance.addAgent(pos);
-                goals.Add(new Vector2(-75.0f, 75.0f));
-                agent = (GameObject)GameObject.Instantiate(agentPrefab, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
-                _agents.Add(agent);
+                pos = new Vector3(55.0f + i * 10.0f, 0, -55.0f - j * 10.0f);
+                //goals.Add(new Vector2(-75.0f, 75.0f));
+                agent = (GameObject)GameObject.Instantiate(agentPrefab, pos, Quaternion.identity);
 
-                pos = new Vector2(-55.0f - i * 10.0f, -55.0f - j * 10.0f);
-                Simulator.Instance.addAgent(pos);
-                goals.Add(new Vector2(75.0f, 75.0f));
-                agent = (GameObject)GameObject.Instantiate(agentPrefab, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
-                _agents.Add(agent);
+                pos = new Vector3(-55.0f - i * 10.0f, 0, -55.0f - j * 10.0f);
+                //goals.Add(new Vector2(75.0f, 75.0f));
+                agent = (GameObject)GameObject.Instantiate(agentPrefab, pos, Quaternion.identity);
             }
-        }
-
-        /*
-            * Add (polygonal) obstacles, specifying their vertices in
-            * counterclockwise order.
-            */
-        IList<Vector3> obstacle1 = new List<Vector3>();
-        obstacle1.Add(new Vector3(-10.0f, 0, 40.0f));
-        obstacle1.Add(new Vector3(-40.0f, 0, 40.0f));
-        obstacle1.Add(new Vector3(-40.0f, 0, 10.0f));
-        obstacle1.Add(new Vector3(-10.0f, 0, 10.0f));
-        Simulator.Instance.addObstacle(obstacle1, 1);
-
-        IList<Vector3> obstacle2 = new List<Vector3>();
-        obstacle2.Add(new Vector3(10.0f, 0, 40.0f));
-        obstacle2.Add(new Vector3(10.0f, 0, 10.0f));
-        obstacle2.Add(new Vector3(40.0f, 0, 10.0f));
-        obstacle2.Add(new Vector3(40.0f, 0, 40.0f));
-        Simulator.Instance.addObstacle(obstacle2, 1);
-
-        IList<Vector3> obstacle3 = new List<Vector3>();
-        obstacle3.Add(new Vector3(10.0f, 0, -40.0f));
-        obstacle3.Add(new Vector3(40.0f, 0, -40.0f));
-        obstacle3.Add(new Vector3(40.0f, 0, -10.0f));
-        obstacle3.Add(new Vector3(10.0f, 0, -10.0f));
-        Simulator.Instance.addObstacle(obstacle3, 1);
-
-        IList<Vector3> obstacle4 = new List<Vector3>();
-        obstacle4.Add(new Vector3(-10.0f, 0, -40.0f));
-        obstacle4.Add(new Vector3(-10.0f, 0, -10.0f));
-        obstacle4.Add(new Vector3(-40.0f, 0, -10.0f));
-        obstacle4.Add(new Vector3(-40.0f, 0, -40.0f));
-        Simulator.Instance.addObstacle(obstacle4, 1);
-
-        /*
-            * Process the obstacles so that they are accounted for in the
-            * simulation.
-            */
-        Simulator.Instance.processObstacles();
-    }
-
-    #if RVO_OUTPUT_TIME_AND_POSITIONS
-    void updateVisualization()
-    {
-        for (int i = 0; i < _agents.Count; ++i)
-        {
-            Vector2 pos = Simulator.Instance.getAgentPosition(i);
-            GameObject agent = _agents[i];
-            agent.transform.position = new Vector3(pos.x, pos.y, 0);
-        }
-    }
-    #endif
-
-    void setPreferredVelocities()
-    {
-        /*
-            * Set the preferred velocity to be a vector of unit magnitude
-            * (speed) in the direction of the goal.
-            */
-        for (int i = 0; i < Simulator.Instance.getNumAgents(); ++i)
-        {
-            Vector2 goalVector = goals[i] - Simulator.Instance.getAgentPosition(i);
-
-            if (RVOMath.absSq(goalVector) > 1.0f)
-            {
-                goalVector = RVOMath.normalize(goalVector);
-            }
-
-            Simulator.Instance.setAgentPrefVelocity(i, goalVector);
-
-            /* Perturb a little to avoid deadlocks due to perfect symmetry. */
-            float angle = (float)random.NextDouble() * 2.0f * (float)Math.PI;
-            float dist = (float)random.NextDouble() * 0.0001f;
-
-            Simulator.Instance.setAgentPrefVelocity(i, Simulator.Instance.getAgentPrefVelocity(i) +
-                dist * new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)));
-        }
-    }
-
-    bool reachedGoal()
-    {
-        /* Check if all agents have reached their goals. */
-        for (int i = 0; i < Simulator.Instance.getNumAgents(); ++i)
-        {
-            if (RVOMath.absSq(Simulator.Instance.getAgentPosition(i) - goals[i]) > 400.0f)
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    void Update()
-    {
-
-        /* Perform (and manipulate) the simulation. */
-        if (!reachedGoal())
-        {
-            #if RVO_OUTPUT_TIME_AND_POSITIONS
-            updateVisualization();
-            #endif
-            setPreferredVelocities();
-            Simulator.Instance.doStep();
         }
     }
 }

@@ -9,28 +9,25 @@ public class ObstacleComponent : MonoBehaviour {
     //Add Bounding box as obstacle
     Vector3[] boundingBoxPoints;
     int _obstacleHandler = -1;
-    public float obstacleHeight = 1;
+    float obstacleHeight;
     // Use this for initialization
     void Start () {
         Mesh mesh = GetComponent<MeshFilter>().mesh;
         Bounds bounds = mesh.bounds;
         Vector3 extents = bounds.extents;
-        boundingBoxPoints = new Vector3[8];
-        boundingBoxPoints[0] = bounds.center + extents;
-        boundingBoxPoints[1] = bounds.center - extents;
-
+        boundingBoxPoints = new Vector3[4];
+        boundingBoxPoints[0] = bounds.center - extents;
         extents.x = -1 * extents.x;
-        boundingBoxPoints[2] = bounds.center + extents;
+        boundingBoxPoints[1] = bounds.center - extents;
+        extents.y = -1 * extents.z;
+        boundingBoxPoints[2] = bounds.center - extents;
+        extents.x = -1 * extents.x;
         boundingBoxPoints[3] = bounds.center - extents;
 
-        extents.y = -1 * extents.y;
-        boundingBoxPoints[4] = bounds.center + extents;
-        boundingBoxPoints[5] = bounds.center - extents;
-
-        extents.x = -1 * extents.x;
-        boundingBoxPoints[6] = bounds.center + extents;
-        boundingBoxPoints[7] = bounds.center - extents;
-
+        Vector3 heightVector = bounds.size;
+        heightVector.x = 0;
+        heightVector.z = 0;
+        obstacleHeight = transform.TransformVector(heightVector).magnitude;
         _obstacleHandler = addObstacle();
     }
 
@@ -42,7 +39,9 @@ public class ObstacleComponent : MonoBehaviour {
         {
             obstaclePos.Add(transform.TransformPoint(v));
         }
-        return Simulator.Instance.addObstacle(obstaclePos, obstacleHeight);
+        int obstacleNum = Simulator.Instance.addObstacle(obstaclePos, obstacleHeight);
+        Simulator.Instance.processObstacles();
+        return obstacleNum;
     }
 	
 	// Update is called once per frame

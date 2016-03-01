@@ -133,6 +133,8 @@ namespace RVO
         private Worker[] workers_;
         private int numWorkers_;
 
+        public bool obstacleIsDirty = false;
+
         public static Simulator Instance
         {
             get
@@ -335,7 +337,11 @@ namespace RVO
                     workers_[block] = new Worker(block * getNumAgents() / workers_.Length, (block + 1) * getNumAgents() / workers_.Length, doneEvents_[block]);
                 }
             }
-
+            if(obstacleIsDirty)
+            {
+                kdTree_.buildObstacleTree();
+                obstacleIsDirty = false;
+            }
             kdTree_.buildAgentTree();
 
             for (int block = 0; block < workers_.Length; ++block)
@@ -661,7 +667,7 @@ namespace RVO
          */
         public void processObstacles()
         {
-            kdTree_.buildObstacleTree();
+            obstacleIsDirty = true;
         }
 
         /**
