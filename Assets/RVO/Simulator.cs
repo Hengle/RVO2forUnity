@@ -283,6 +283,24 @@ namespace RVO
             return obstacleNo;
         }
 
+        public void removeObstacle(int obstacleNo)
+        {
+            if (obstacleNo < 0 || obstacleNo > obstacles_.Count - 1)
+                return;
+            Obstacle firstObstacleTobeRemoved = obstacles_[obstacleNo];
+            Obstacle nextObstacleTobeRemoved = firstObstacleTobeRemoved.next_;
+            List<Obstacle> obstaclesTobeRemoved = new List<Obstacle> ();
+            obstaclesTobeRemoved.Add(firstObstacleTobeRemoved);
+            while(nextObstacleTobeRemoved != firstObstacleTobeRemoved)
+            {
+                obstaclesTobeRemoved.Add(nextObstacleTobeRemoved);
+                nextObstacleTobeRemoved = nextObstacleTobeRemoved.next_;
+            }
+
+            foreach(Obstacle aobstacle in obstaclesTobeRemoved)
+                obstacles_.Remove(aobstacle);
+        }
+
         /**
          * <summary>Clears the simulation.</summary>
          */
@@ -542,9 +560,10 @@ namespace RVO
          * <param name="agentNo">The number of the agent whose two-dimensional
          * linear velocity is to be retrieved.</param>
          */
-        public Vector2 getAgentVelocity(int agentNo)
+        public Vector3 getAgentVelocity(int agentNo)
         {
-            return agents_[agentNo].velocity_;
+            float yVelocity = agents_[agentNo].velocity_.magnitude * agents_[agentNo].tanHeight;
+            return new Vector3(agents_[agentNo].velocity_.x, yVelocity, agents_[agentNo].velocity_.y);
         }
 
          /**
