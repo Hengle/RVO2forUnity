@@ -12,6 +12,7 @@ public class AgentComponent : MonoBehaviour {
     public float radius;
     public float maxSpeed;
     public float agentHeight;
+    public bool isKinematic = false;
 
     Random random;
 
@@ -20,7 +21,7 @@ public class AgentComponent : MonoBehaviour {
     // Use this for initialization
     void Start () {
         random = new Random();
-        _agentHandler = Simulator.Instance.addAgent(transform.position, agentHeight, neighborDist, maxNeighbors, timeHorizon, timeHorizonObst, radius, maxSpeed, Vector2.zero);
+        _agentHandler = Simulator.Instance.addAgent(transform.position, agentHeight, neighborDist, maxNeighbors, timeHorizon, timeHorizonObst, radius, maxSpeed, Vector2.zero, isKinematic);
 
     }
 

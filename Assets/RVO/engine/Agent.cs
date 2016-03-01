@@ -79,7 +79,7 @@ namespace RVO
         internal float radius_ = 0.0f;
         internal float timeHorizon_ = 0.0f;
         internal float timeHorizonObst_ = 0.0f;
-
+        internal bool isKinematic = false;
         private Vector2 newVelocity_;
 
         /**
@@ -105,6 +105,11 @@ namespace RVO
          */
         internal void computeNewVelocity()
         {
+            if(isKinematic)
+            {
+                newVelocity_ = prefVelocity_ / prefVelocity_.magnitude * maxSpeed_;
+                return;
+            }
             orcaLines_.Clear();
 
             float invTimeHorizonObst = 1.0f / timeHorizonObst_;
@@ -433,8 +438,10 @@ namespace RVO
                     line.direction = new Vector2(unitW.y, -unitW.x);
                     u = (combinedRadius * invTimeStep - wLength) * unitW;
                 }
-
-                line.point = velocity_ + 0.5f * u;
+                if (!other.isKinematic)
+                    line.point = velocity_ + 0.5f * u;
+                else
+                    line.point = relativeVelocity;
                 orcaLines_.Add(line);
             }
 

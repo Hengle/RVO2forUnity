@@ -210,7 +210,7 @@ namespace RVO
          * <param name="velocity">The initial two-dimensional linear velocity of
          * this agent.</param>
          */
-        public int addAgent(Vector3 position, float agentHeight, float neighborDist, int maxNeighbors, float timeHorizon, float timeHorizonObst, float radius, float maxSpeed, Vector2 velocity)
+        public int addAgent(Vector3 position, float agentHeight, float neighborDist, int maxNeighbors, float timeHorizon, float timeHorizonObst, float radius, float maxSpeed, Vector2 velocity, bool isKinematic)
         {
             Agent agent = new Agent();
             agent.id_ = agents_.Count;
@@ -224,6 +224,7 @@ namespace RVO
             agent.timeHorizonObst_ = timeHorizonObst;
             agent.velocity_ = velocity;
             agent.agentHeight_ = agentHeight;
+            agent.isKinematic = isKinematic;
             agents_.Add(agent);
 
             return agent.id_;

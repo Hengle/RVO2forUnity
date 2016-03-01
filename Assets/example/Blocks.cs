@@ -107,6 +107,7 @@ class Blocks:MonoBehaviour
                 agent = (GameObject)GameObject.Instantiate(agentPrefab, pos, Quaternion.identity);
                 agentComponent = agent.GetComponent<AgentComponent>();
                 agentComponent.target = new Vector3(75.0f, 0, 75.0f);
+                agentComponent.isKinematic = true;
             }
         }
     }
