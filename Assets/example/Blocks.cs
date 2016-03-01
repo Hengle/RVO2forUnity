@@ -61,9 +61,6 @@
  * obstacles. There is no roadmap to guide the agents around the obstacles.
  */
 
-
-using System;
-using RVO;
 using System.Collections.Generic;
 using UnityEngine;
 
