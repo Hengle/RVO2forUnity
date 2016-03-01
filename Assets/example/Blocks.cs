@@ -151,28 +151,28 @@ class Blocks:MonoBehaviour
         obstacle1.Add(new Vector2(-40.0f, 40.0f));
         obstacle1.Add(new Vector2(-40.0f, 10.0f));
         obstacle1.Add(new Vector2(-10.0f, 10.0f));
-        Simulator.Instance.addObstacle(obstacle1);
+        Simulator.Instance.addObstacle(obstacle1, 0, 1);
 
         IList<Vector2> obstacle2 = new List<Vector2>();
         obstacle2.Add(new Vector2(10.0f, 40.0f));
         obstacle2.Add(new Vector2(10.0f, 10.0f));
         obstacle2.Add(new Vector2(40.0f, 10.0f));
         obstacle2.Add(new Vector2(40.0f, 40.0f));
-        Simulator.Instance.addObstacle(obstacle2);
+        Simulator.Instance.addObstacle(obstacle2, 0, 1);
 
         IList<Vector2> obstacle3 = new List<Vector2>();
         obstacle3.Add(new Vector2(10.0f, -40.0f));
         obstacle3.Add(new Vector2(40.0f, -40.0f));
         obstacle3.Add(new Vector2(40.0f, -10.0f));
         obstacle3.Add(new Vector2(10.0f, -10.0f));
-        Simulator.Instance.addObstacle(obstacle3);
+        Simulator.Instance.addObstacle(obstacle3, 0, 1);
 
         IList<Vector2> obstacle4 = new List<Vector2>();
         obstacle4.Add(new Vector2(-10.0f, -40.0f));
         obstacle4.Add(new Vector2(-10.0f, -10.0f));
         obstacle4.Add(new Vector2(-40.0f, -10.0f));
         obstacle4.Add(new Vector2(-40.0f, -40.0f));
-        Simulator.Instance.addObstacle(obstacle4);
+        Simulator.Instance.addObstacle(obstacle4, 0, 1);
 
         /*
             * Process the obstacles so that they are accounted for in the

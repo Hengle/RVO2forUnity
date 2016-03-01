@@ -67,6 +67,7 @@ namespace RVO
         internal IList<KeyValuePair<float, Obstacle>> obstacleNeighbors_ = new List<KeyValuePair<float, Obstacle>>();
         internal IList<Line> orcaLines_ = new List<Line>();
         internal Vector2 position_;
+        internal float agentHeight_;
 		internal float curHeight_;
         internal Vector2 prefVelocity_;
         internal Vector2 velocity_;
@@ -455,6 +456,9 @@ namespace RVO
         {
             if (this != agent)
             {
+                if (agent.curHeight_ + agent.agentHeight_ < curHeight_ || curHeight_ + agentHeight_ < agent.curHeight_)
+                    return;
+
                 float distSq = RVOMath.absSq(position_ - agent.position_);
 
                 if (distSq < rangeSq)
@@ -492,7 +496,13 @@ namespace RVO
          */
         internal void insertObstacleNeighbor(Obstacle obstacle, float rangeSq)
         {
+            
             Obstacle nextObstacle = obstacle.next_;
+            //if obstacle is below feet of agent or agent is above the head of obstacle, culling this obstacle 
+            float minYPos = Mathf.Min(obstacle.curHeight_, nextObstacle.curHeight_);
+            float maxYPos = Mathf.Max(obstacle.curHeight_ + obstacle.ObsHeight_, nextObstacle.curHeight_ + nextObstacle.ObsHeight_);
+            if (curHeight_ > maxYPos || curHeight_ + agentHeight_ < minYPos)
+                return;
 
             float distSq = RVOMath.distSqPointLineSegment(obstacle.point_, nextObstacle.point_, position_);
 

@@ -66,7 +66,8 @@ namespace RVO
         internal Obstacle previous_;
         internal Vector2 direction_;
         internal Vector2 point_;
-        internal float height;
+        internal float curHeight_;
+        internal float ObsHeight_;
         internal int id_;
         internal bool convex_;
     }

@@ -88,6 +88,7 @@ class Circle:MonoBehaviour
     {
         while(true)
         {
+            Simulator.Instance.setTimeStep(0.1f);// Time.deltaTime);
             yield return Simulator.Instance.doStep();
         }
     }
@@ -95,7 +96,7 @@ class Circle:MonoBehaviour
     void setupScenario()
     {
         /* Specify the global time step of the simulation. */
-        Simulator.Instance.setTimeStep(0.25f);
+        
 
         /*
             * Specify the default parameters for agents that are subsequently

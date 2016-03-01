@@ -151,7 +151,7 @@ namespace RVO
          * <param name="position">The two-dimensional starting position of this
          * agent.</param>
          */
-        public int addAgent(Vector2 position)
+        public int addAgent(Vector3 position)
         {
             if (defaultAgent_ == null)
             {
@@ -163,7 +163,8 @@ namespace RVO
             agent.maxNeighbors_ = defaultAgent_.maxNeighbors_;
             agent.maxSpeed_ = defaultAgent_.maxSpeed_;
             agent.neighborDist_ = defaultAgent_.neighborDist_;
-            agent.position_ = position;
+            agent.position_ = new Vector2(position.x, position.z);
+            agent.curHeight_ = position.y;
             agent.radius_ = defaultAgent_.radius_;
             agent.timeHorizon_ = defaultAgent_.timeHorizon_;
             agent.timeHorizonObst_ = defaultAgent_.timeHorizonObst_;
@@ -207,14 +208,15 @@ namespace RVO
          * <param name="velocity">The initial two-dimensional linear velocity of
          * this agent.</param>
          */
-        public int addAgent(Vector2 position, float neighborDist, int maxNeighbors, float timeHorizon, float timeHorizonObst, float radius, float maxSpeed, Vector2 velocity)
+        public int addAgent(Vector3 position, float neighborDist, int maxNeighbors, float timeHorizon, float timeHorizonObst, float radius, float maxSpeed, Vector2 velocity)
         {
             Agent agent = new Agent();
             agent.id_ = agents_.Count;
             agent.maxNeighbors_ = maxNeighbors;
             agent.maxSpeed_ = maxSpeed;
             agent.neighborDist_ = neighborDist;
-            agent.position_ = position;
+            agent.position_ = new Vector2(position.x, position.z);
+            agent.curHeight_ = position.y;
             agent.radius_ = radius;
             agent.timeHorizon_ = timeHorizon;
             agent.timeHorizonObst_ = timeHorizonObst;
@@ -237,7 +239,7 @@ namespace RVO
          * the environment, the vertices should be listed in clockwise order.
          * </remarks>
          */
-        public int addObstacle(IList<Vector2> vertices)
+        public int addObstacle(IList<Vector3> vertices, float height)
         {
             if (vertices.Count < 2)
             {
@@ -249,8 +251,8 @@ namespace RVO
             for (int i = 0; i < vertices.Count; ++i)
             {
                 Obstacle obstacle = new Obstacle();
-                obstacle.point_ = vertices[i];
-
+                obstacle.point_ = new Vector2(vertices[i].x, vertices[i].z);
+                obstacle.curHeight_ = vertices[i].y;
                 if (i != 0)
                 {
                     obstacle.previous_ = obstacles_[obstacles_.Count - 1];
@@ -273,7 +275,7 @@ namespace RVO
                 {
                     obstacle.convex_ = (RVOMath.leftOf(vertices[(i == 0 ? vertices.Count - 1 : i - 1)], vertices[i], vertices[(i == vertices.Count - 1 ? 0 : i + 1)]) >= 0.0f);
                 }
-
+                obstacle.ObsHeight_ = height;
                 obstacle.id_ = obstacles_.Count;
                 obstacles_.Add(obstacle);
             }
@@ -760,9 +762,10 @@ namespace RVO
          * <param name="position">The replacement of the two-dimensional
          * position.</param>
          */
-        public void setAgentPosition(int agentNo, Vector2 position)
+        public void setAgentPosition(int agentNo, Vector3 position)
         {
-            agents_[agentNo].position_ = position;
+            agents_[agentNo].position_ = new Vector2(position.x, position.z);
+            agents_[agentNo].curHeight_ = position.y;
         }
 
         /**
@@ -790,6 +793,11 @@ namespace RVO
         public void setAgentRadius(int agentNo, float radius)
         {
             agents_[agentNo].radius_ = radius;
+        }
+
+        public void setAgentHeight(int agentNo, float height)
+        {
+            agents_[agentNo].agentHeight_ = height;
         }
 
         /**
