@@ -777,9 +777,10 @@ namespace RVO
          * <param name="prefVelocity">The replacement of the two-dimensional
          * preferred velocity.</param>
          */
-        public void setAgentPrefVelocity(int agentNo, Vector2 prefVelocity)
+        public void setAgentPrefVelocity(int agentNo, Vector3 prefVelocity)
         {
-            agents_[agentNo].prefVelocity_ = prefVelocity;
+            agents_[agentNo].prefVelocity_ = new Vector2(prefVelocity.x, prefVelocity.z);
+            agents_[agentNo].tanHeight = prefVelocity.y / agents_[agentNo].prefVelocity_.magnitude;
         }
 
         /**

@@ -71,6 +71,7 @@ namespace RVO
 		internal float curHeight_;
         internal Vector2 prefVelocity_;
         internal Vector2 velocity_;
+        internal float tanHeight;
         internal int id_ = 0;
         internal int maxNeighbors_ = 0;
         internal float maxSpeed_ = 0.0f;
@@ -529,6 +530,7 @@ namespace RVO
         {
             velocity_ = newVelocity_;
             position_ += velocity_ * Simulator.Instance.timeStep_;
+            curHeight_ += velocity_.magnitude * Simulator.Instance.timeStep_ * tanHeight;
         }
 
         /**
