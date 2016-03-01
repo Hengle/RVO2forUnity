@@ -19,7 +19,7 @@ public class ObstacleComponent : MonoBehaviour {
         boundingBoxPoints[0] = bounds.center - extents;
         extents.x = -1 * extents.x;
         boundingBoxPoints[1] = bounds.center - extents;
-        extents.y = -1 * extents.z;
+        extents.z = -1 * extents.z;
         boundingBoxPoints[2] = bounds.center - extents;
         extents.x = -1 * extents.x;
         boundingBoxPoints[3] = bounds.center - extents;
@@ -29,15 +29,18 @@ public class ObstacleComponent : MonoBehaviour {
         heightVector.z = 0;
         obstacleHeight = transform.TransformVector(heightVector).magnitude;
         _obstacleHandler = addObstacle();
+        transform.hasChanged = false;
     }
 
     int addObstacle()
     {
         Simulator.Instance.removeObstacle(_obstacleHandler);
         List<Vector3> obstaclePos = new List<Vector3>();
+        Debug.Log("============================");
         foreach(Vector3 v in boundingBoxPoints)
         {
             obstaclePos.Add(transform.TransformPoint(v));
+            Debug.Log(transform.TransformPoint(v).ToString());
         }
         int obstacleNum = Simulator.Instance.addObstacle(obstaclePos, obstacleHeight);
         Simulator.Instance.processObstacles();
@@ -50,6 +53,7 @@ public class ObstacleComponent : MonoBehaviour {
 	    if(transform.hasChanged)
         {
             _obstacleHandler = addObstacle();
+            transform.hasChanged = false;
         }
 	}
 }

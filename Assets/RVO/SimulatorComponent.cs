@@ -14,7 +14,7 @@ public class SimulatorComponent : MonoBehaviour {
         while (true)
         {
             yield return new WaitForEndOfFrame();
-            Simulator.Instance.setTimeStep(Time.deltaTime);
+            Simulator.Instance.setTimeStep(Time.deltaTime * 10);
             yield return Simulator.Instance.doStep();
         }
             

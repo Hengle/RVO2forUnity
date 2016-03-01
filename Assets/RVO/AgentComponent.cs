@@ -11,12 +11,16 @@ public class AgentComponent : MonoBehaviour {
     public float timeHorizonObst;
     public float radius;
     public float maxSpeed;
+    public float agentHeight;
+
+    Random random;
 
     public Vector3 target;
    
     // Use this for initialization
     void Start () {
-        _agentHandler = Simulator.Instance.addAgent(transform.position, neighborDist, maxNeighbors, timeHorizon, timeHorizonObst, radius, maxSpeed, Vector2.zero);
+        random = new Random();
+        _agentHandler = Simulator.Instance.addAgent(transform.position, agentHeight, neighborDist, maxNeighbors, timeHorizon, timeHorizonObst, radius, maxSpeed, Vector2.zero);
 
     }
 
@@ -27,12 +31,15 @@ public class AgentComponent : MonoBehaviour {
 
     void setPreferredVelocities(Vector3 velocity)
     {
-        Simulator.Instance.setAgentPrefVelocity(_agentHandler, velocity);
+        float angle = (float)Random.value * 2.0f * (float)Mathf.PI;
+        float dist = (float)Random.value * 0.0001f;
+        Simulator.Instance.setAgentPrefVelocity(_agentHandler, velocity + dist * new Vector3((float)Mathf.Cos(angle), 0, (float)Mathf.Sin(angle)));
     }
 
     // Update is called once per frame
     void Update () {
-        transform.position = Simulator.Instance.getAgentPosition(_agentHandler);
+        Vector3 pos = Simulator.Instance.getAgentPosition(_agentHandler);
+        transform.position = pos;
         Simulator.Instance.setAgentPrefVelocity(_agentHandler, target - transform.position);
 	}
 }
